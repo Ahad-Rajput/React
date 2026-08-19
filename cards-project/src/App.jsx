@@ -17,7 +17,7 @@ const App = () => {
     },
 
     {
-        brandLogo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+        brandLogo: "public/microsoft.png",
         companyName: "Microsoft",
         datePosted: "1 week ago",
         post: "Frontend Developer",
@@ -118,8 +118,10 @@ const App = () => {
 
   return (
     <div className='parent'>
-      {jobOpenings.map(function(elem){
-        return <Card company={elem.companyName} post={elem.post} logo={elem.brandLogo} date={elem.datePosted} tag1={elem.tag1} tag2={elem.tag2} pay={elem.pay} loc={elem.location} />
+      {jobOpenings.map(function(elem, idx){
+        return <div key={idx}>
+            <Card company={elem.companyName} post={elem.post} logo={elem.brandLogo} date={elem.datePosted} tag1={elem.tag1} tag2={elem.tag2} pay={elem.pay} loc={elem.location} />
+        </div>
       })}
     </div>
   )
