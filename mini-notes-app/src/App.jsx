@@ -2,21 +2,35 @@ import { useState } from "react";
 
 
 const App = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('')
   const [details, setDetails] = useState('')
-  
   const [task, setTask] = useState([])
+  const [editIndex, setEditIndex] = useState(null)
 
   const submittingFrom = (e) =>{
     e.preventDefault();
 
     const copyTask = [...task];
-    copyTask.push({title, details});
+
+    if(editIndex === null){
+      copyTask.push({title, details});
+    } else{
+      copyTask[editIndex] = {title, details};
+    }
     
     setTask(copyTask);
 
     setTitle('');
     setDetails('');
+    setEditIndex(null);
+  }
+
+  const editTask = (idx) =>{
+    const selectedTask = task[idx];
+    
+    setTitle(selectedTask.title);
+    setDetails(selectedTask.details);
+    setEditIndex(idx);
   }
 
   const deleteTask = (idx) =>{
@@ -53,7 +67,7 @@ const App = () => {
           ></textarea>
           <button 
           type="submit"
-          className='bg-[#0AC6C7] active:scale-95 hover:shadow-[0_0_20px_rgba(10,198,199,0.35)] cursor-pointer px-3 py-4 rounded-xl text-xl font-bold'>ADD NOTES</button>
+          className='bg-[#0AC6C7] active:scale-95 hover:shadow-[0_0_20px_rgba(10,198,199,0.35)] cursor-pointer px-3 py-4 rounded-xl text-xl font-bold'>{editIndex === null ? 'ADD NOTE' : 'UPDATE NOTE'}</button>
         </div>
         <div className=' bg-[#2A2A2A] w-[90%] px-8 py-6 h-fit border border-[#444] rounded-xl'>
           <h4 className='text-white w-full border-b-2 font-bold text-2xl pb-3 border-purple-400'>All Notes</h4>
@@ -65,6 +79,9 @@ const App = () => {
               <div className='flex gap-x-3'>
                 <button 
                 type="button"
+                onClick={()=>{
+                  editTask(idx);
+                }}
                 className='bg-[#0FAF7C] active:scale-95 cursor-pointer rounded-xl px-4 py-2 hover:shadow-[0_0_15px_rgba(15,175,124,0.45)]'>Edit</button>
                 <button 
                 type="button"
